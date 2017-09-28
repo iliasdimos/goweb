@@ -17,5 +17,5 @@ docker build -t simple-go-server .
 
 Run 
 ```
-docker run -d -p 8080:8080 -e COLOR=yellow simple-go-server
+docker run -d --rm -p 8080:8080 -e COLOR=yellow simple-go-server
 ```
