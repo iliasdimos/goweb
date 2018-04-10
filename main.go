@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var version = "v1"
+var version = "v2"
 
 func main() {
 	port := ":" + getPort()
