@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
-	"os/signal"
-	"syscall"
 )
 
 var version = "v1"
@@ -13,21 +12,10 @@ var version = "v1"
 func main() {
 	port := ":" + getPort()
 
-	// Handling signals
-	signals := make(chan os.Signal)
-	done := make(chan bool)
-	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
-	go catchSignal(signals, done)
-	// End of handling signals
-
 	http.HandleFunc("/", indexHandler)
 	fmt.Printf("Starting server at %s\n", port)
 	fmt.Println("Press ctrl-c to terminate...")
-	http.ListenAndServe(port, nil)
-
-	<-done
-	fmt.Println("Closing now ! Bye !")
-	os.Exit(1)
+	log.Fatal(http.ListenAndServe(port, nil))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,21 +40,4 @@ func getColor() string {
 		return "white"
 	}
 	return color
-}
-
-func catchSignal(ch chan os.Signal, done chan bool) {
-	sig := <-ch
-
-	fmt.Println("sig received:", sig)
-
-	switch sig {
-	case syscall.SIGINT:
-		fmt.Println("Handling a SIGINT here")
-	case syscall.SIGTERM:
-		fmt.Println("Handling a SIGTERM here")
-	default:
-		fmt.Println("Other signal received")
-	}
-
-	done <- true
 }
