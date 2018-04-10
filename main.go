@@ -36,7 +36,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	fmt.Fprintf(w, "<!DOCTYPE html><html><h2>Simple Go Web Server %s</h2><body style='background-color: %s'> Running on %s</body></html>", version, getColor(), host)
-
 }
 
 func getPort() string {
