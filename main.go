@@ -1,16 +1,32 @@
+//go:generate stringer -type=Color
 package main
 
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 )
 
 var version = "v2"
 
+const (
+	_ Color = iota
+	red
+	blue
+	yellow
+	pink
+	white
+)
+
+type Color int
+
+var color Color
+
 func main() {
 	port := ":" + getPort()
+	color = Color(rand.Intn(5))
 
 	http.HandleFunc("/", indexHandler)
 	fmt.Printf("Starting server at %s\n", port)
@@ -23,7 +39,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Fprintf(w, "<!DOCTYPE html><html><h2>Simple Go Web Server %s</h2><body style='background-color: %s'> Running on %s</body></html>", version, getColor(), host)
+	fmt.Fprintf(w, "<!DOCTYPE html><html><h2>Simple Go Web Server %s</h2><body style='background-color: %s'> Running on %s</body></html>", version, color.String(), host)
 }
 
 func getPort() string {
@@ -32,12 +48,4 @@ func getPort() string {
 		return "8080"
 	}
 	return port
-}
-
-func getColor() string {
-	color := os.Getenv("COLOR")
-	if color == "" {
-		return "white"
-	}
-	return color
 }
