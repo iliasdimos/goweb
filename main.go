@@ -7,9 +7,10 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"time"
 )
 
-var version = "v2"
+var version = "v1"
 
 const (
 	_ Color = iota
@@ -26,7 +27,9 @@ var color Color
 
 func main() {
 	port := ":" + getPort()
-	color = Color(rand.Intn(5))
+	s := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(s)
+	color = Color(r.Intn(5))
 
 	http.HandleFunc("/", indexHandler)
 	fmt.Printf("Starting server at %s\n", port)
