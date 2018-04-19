@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-var version = "v1"
+var version = "v2"
 
 const (
 	_ Color = iota
