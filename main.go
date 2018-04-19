@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var version = "v2"
+var version = "v1"
 
 const (
 	_ Color = iota
