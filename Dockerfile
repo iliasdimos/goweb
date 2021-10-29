@@ -2,7 +2,7 @@
 FROM golang:alpine AS build-env
 RUN  apk update && apk add git
 ADD . /src
-RUN go get github.com/dosko64/goweb && go install github.com/dosko64/goweb
+RUN go install github.com/dosko64/goweb@latest
 
 # final stage
 FROM alpine
